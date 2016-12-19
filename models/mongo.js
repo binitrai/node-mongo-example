@@ -13,7 +13,7 @@ var AutoIncrement = require('mongoose-sequence');
 
 mongoose.connect(dbUrl);
 
-var custSchemaaa =   mongoose.Schema({
+var custSchema =   mongoose.Schema({
     "customer_id"    : { type : Number },
     "email"          : { type : String, required : true, unique : true },
     "referral_id"    : { type : Number, default : null },
@@ -23,7 +23,7 @@ var custSchemaaa =   mongoose.Schema({
     "last_updated"   : { type : Date }
 });
 
-custSchemaaa.pre('save', function (next) {
+custSchema.pre('save', function (next) {
   let currentDate = new Date();
   this.last_updated = currentDate;
 
@@ -33,14 +33,14 @@ custSchemaaa.pre('save', function (next) {
   next();
 });
 
-custSchemaaa.pre('findOneAndUpdate', function (next) {
+custSchema.pre('findOneAndUpdate', function (next) {
   let currentDate = new Date();
   this.last_updated = currentDate;
   next();
 });
 
-var custModall = mongoose.model('custModall', custSchemaaa);
+var custModal = mongoose.model('custModal', custSchema);
 
-custSchemaaa.plugin(AutoIncrement, {inc_field: 'customer_id'});
+custSchema.plugin(AutoIncrement, {inc_field: 'customer_id'});
 
-module.exports = custModall;
+module.exports = custModal;
